@@ -1,0 +1,30 @@
+name: Update version.txt
+
+on:
+  workflow_dispatch:  # Manually trigger this workflow when updating the version
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/update-version.yml"  # Runs when this workflow file changes
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update version file
+        run: |
+          echo "1.0.2" > version.txt  # Change this to your new version
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.txt
+          git commit -m "Updated bot version to 1.0.2"
+          git push
+          
